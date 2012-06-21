@@ -21,5 +21,7 @@ $(client_NAME): $(client_OBJS)
 clean:
 	@- $(RM) $(client_NAME) $(server_NAME)
 	@- $(RM) $(client_OBJS) $(server_OBJS)
+
 distclean: clean
+	@- $(RM) *~
 
