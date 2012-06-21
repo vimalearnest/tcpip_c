@@ -148,19 +148,11 @@ int start_server(char* port, int backlog) {
             printf("server: failed to get ip address of the client!");
         }
 
-        if (!fork()) { // this is the child process
-            close(ssock); // child doesn't need the listener
-
-            if (send(csock, "Hello, world!", 13, 0) == -1) {
-                perror("send");
-            }
-
-            close(csock);
-            
-            exit(0);
+        if (send(csock, "Hello, world!", 13, 0) == -1) {
+            perror("send");
         }
-        
-        close(csock);  // parent doesn't need this
+
+        close(csock);
     }
 }
 
