@@ -1,27 +1,27 @@
-server_NAME := server
-server_C_SRCS := server.c
-server_C_OBJS := ${server_C_SRCS:.c=.o}
-server_OBJS := $(server_C_OBJS)
+program_NAME := server_concurrent
+program_C_SRCS := $(wildcard *.c)
+program_CXX_SRCS := $(wildcard *.cpp)
+program_C_OBJS := ${program_C_SRCS:.c=.o}
+program_CXX_OBJS := ${program_CXX_SRCS:.cpp=.o}
+program_OBJS := $(program_C_OBJS) $(program_CXX_OBJS)
+program_INCLUDE_DIRS :=
+program_LIBRARY_DIRS :=
+program_LIBRARIES :=
 
-client_NAME := client
-client_C_SRCS := client.c
-client_C_OBJS := ${client_C_SRCS:.c=.o}
-client_OBJS := $(client_C_OBJS)
+CPPFLAGS += $(foreach includedir,$(program_INCLUDE_DIRS),-I$(includedir))
+LDFLAGS += $(foreach librarydir,$(program_LIBRARY_DIRS),-L$(librarydir))
+LDFLAGS += $(foreach library,$(program_LIBRARIES),-l$(library))
 
 .PHONY: all clean distclean
 
-all: $(server_NAME) $(client_NAME)
+all: $(program_NAME)
 
-$(server_NAME): $(server_OBJS)
-	$(LINK.cc) $(server_OBJS) -o $(server_NAME)
-
-$(client_NAME): $(client_OBJS)
-	$(LINK.cc) $(client_OBJS) -o $(client_NAME)
+$(program_NAME): $(program_OBJS)
+	$(LINK.cc) $(program_OBJS) -o $(program_NAME)
 
 clean:
-	@- $(RM) $(client_NAME) $(server_NAME)
-	@- $(RM) $(client_OBJS) $(server_OBJS)
+	@- $(RM) $(program_NAME)
+	@- $(RM) $(program_OBJS)
 
 distclean: clean
-	@- $(RM) *~
 
