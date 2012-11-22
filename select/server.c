@@ -164,11 +164,6 @@ int start_server(char* port, int backlog) {
                     if (csock == -1) {
                         perror("accept");
                     } else {
-                        FD_SET(csock, &master); // add to master set
-                        if (csock > fdmax) {    // keep track of the max
-                            fdmax = csock;
-                        }
-    
                         ip = get_ip_addr(&ca);
                         if (ip) {
                             printf("server: got connection from %s\n", ip);
@@ -189,8 +184,6 @@ int start_server(char* port, int backlog) {
         }
     }
 }
-
-
 
 void print_usage(char* app) {
     printf("usage : ./%s <port> <backlog> \
