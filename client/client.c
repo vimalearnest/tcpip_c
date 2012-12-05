@@ -13,7 +13,7 @@
 #define MAXDATASIZE 100 // max number of bytes we can get at once 
 
 // get sockaddr, IPv4 or IPv6:
-void *get_in_addr(struct sockaddr *sa)
+void* get_in_addr(struct sockaddr *sa)
 {
     if (sa->sa_family == AF_INET) {
         return &(((struct sockaddr_in*)sa)->sin_addr);
@@ -29,8 +29,10 @@ char* get_ip_addr(struct addrinfo* ai) {
         return NULL;
     }
     
-    inet_ntop(ai->ai_family, get_in_addr((struct sockaddr *)ai->ai_addr),
-              s, INET6_ADDRSTRLEN);
+    inet_ntop(ai->ai_family,
+              get_in_addr((struct sockaddr *)ai->ai_addr),
+              s,
+              INET6_ADDRSTRLEN);
     return s; 
 }
 
@@ -109,3 +111,12 @@ int main(int argc, char *argv[])
 
     return 0;
 }
+
+
+
+
+
+
+
+
+

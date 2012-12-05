@@ -24,4 +24,4 @@ clean:
 	@- $(RM) $(program_OBJS)
 
 distclean: clean
-
+	@- $(RM) *~
