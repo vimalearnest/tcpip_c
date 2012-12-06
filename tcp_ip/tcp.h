@@ -17,8 +17,11 @@
  *  return
  *      error -> NULL
  *      success -> ip address
+ *
+ *  note:- caller has to free the memory returned 
+ *         by the function on success.
  */
-char* get_ip_addr(struct addrinfo* ai);
+char* get_ip_addr(struct sockaddr_storage* ss);
 
 /** get the IPv4 or IPv6 address  
  *
@@ -26,7 +29,15 @@ char* get_ip_addr(struct addrinfo* ai);
  *      error -> NULL
  *      success -> sockaddr_in* or sockaddr_in6*
  */
-void* get_in_addr(struct sockaddr *sa);
+void* get_in_addr(struct sockaddr_storage* ss);
+
+/** parse the port number from the given string.
+ *
+ *  return
+ *      error -> -1
+ *      success -> port
+ */
+short parse_port(char* s);
 
 /** connect to a host on the given port
  *
@@ -35,5 +46,29 @@ void* get_in_addr(struct sockaddr *sa);
  *      success -> socket fd
  */
 int tcp_connect(char* hostname, char* port);
+
+/** bind to the given port 
+ *
+ *  return
+ *      error -> -1
+ *      success -> socket fd
+ */
+int tcp_bind(char* port);
+
+/** put the given sock fd in listen mode
+ *
+ *  return
+ *      error -> -1
+ *      success -> 1
+ */
+int tcp_listen(int ssock, size_t blog);
+
+/** accept connection on the given sock fd
+ *
+ *  return
+ *      error -> -1
+ *      success -> socket fd
+ */
+int tcp_accept(int ssock, struct sockaddr_storage* sa);
 
 #endif /* __TCP_H_INCLUDED__ */

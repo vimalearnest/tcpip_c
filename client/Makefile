@@ -25,7 +25,7 @@ $(program_NAME): $(program_OBJS)
 
 clean:
 	@- $(RM) $(program_BINDIR)/$(program_NAME)
-	@- $(RM) $(program_OBJS)w
+	@- $(RM) $(program_OBJS)
 
 distclean: clean
 	@- $(RM) *~

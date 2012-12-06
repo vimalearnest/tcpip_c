@@ -6,20 +6,49 @@
 
 #include "tcp.h"
 
-#define PORT "8888" // the default port client will be connecting to 
 #define MAXDATASIZE 100 // max number of bytes we can get at once 
+
+void help() {
+    printf("client: invalid hostname or port!\n");
+}
 
 int main(int argc, char *argv[])
 {
-    int csock, numbytes;  
     char buf[MAXDATASIZE];
+    char* hostname = NULL;
+    int csock, numbytes;  
+    char* port = NULL;
 
-    if (argc != 2) {
-        fprintf(stderr,"usage: client hostname\n");
-        exit(1);
+    while (1) {
+        char c;
+
+        c = getopt (argc, argv, "h:p:");
+        if (c == -1) {
+            break;
+        }
+
+        switch (c) {
+
+        case 'h':
+            hostname = optarg;
+            break;
+            
+        case 'p':
+            port = optarg;   
+            break;
+            
+        case '?':
+        default:
+            help();
+        }
     }
 
-    csock = tcp_connect(argv[1], PORT);
+    if (!hostname || !port) {
+        help();
+        exit(2);
+    }
+    
+    csock = tcp_connect(hostname, port);
     if (csock < 0) {
         return -1;
     }
